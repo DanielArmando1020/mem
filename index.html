@@ -1,0 +1,360 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Para ti ❤️</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    font-family: 'Segoe UI', sans-serif;
+    background:
+      radial-gradient(ellipse at center, #49232f 0%, #21151e 55%, #100f17 100%);
+    color: #fff1f1;
+}
+
+.container {
+    width: 100%;
+    max-width: 480px;
+    padding: 25px;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+}
+
+.subtitle {
+    color: #d99ca9;
+    font-size: 11px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    margin-bottom: 35px;
+}
+
+h1 {
+    font-size: clamp(29px, 7vw, 40px);
+    font-weight: 400;
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+}
+
+.description {
+    font-size: 14px;
+    color: #c9aeb5;
+    letter-spacing: .5px;
+}
+
+.heart-area {
+    height: 260px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.heart {
+    width: 230px;
+    max-width: 75vw;
+    overflow: visible;
+    filter: drop-shadow(0 12px 30px #e75b7950);
+}
+
+.left-piece, .right-piece {
+    transition: transform 1.3s cubic-bezier(.2,.8,.2,1);
+}
+
+.left-piece {
+    transform: translate(-11px, 0);
+}
+
+.right-piece {
+    transform: translate(11px, 0);
+}
+
+.heart.fixed .left-piece,
+.heart.fixed .right-piece {
+    transform: translate(0, 0);
+}
+
+.crack {
+    opacity: 1;
+    transition: opacity .5s ease;
+}
+
+.heart.fixed .crack {
+    opacity: 0;
+}
+
+.heart-glow {
+    opacity: 0;
+    transition: opacity 1s ease;
+}
+
+.heart.fixed .heart-glow {
+    opacity: 1;
+}
+
+button {
+    margin-top: 24px;
+    padding: 15px 35px;
+    border: 1px solid #d8899b;
+    border-radius: 50px;
+    background: linear-gradient(135deg, #bd6178, #8e3d58);
+    color: white;
+    font-size: 14px;
+    letter-spacing: 1px;
+    cursor: pointer;
+    box-shadow: 0 5px 25px #d45c7840;
+    transition: .3s;
+}
+
+button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 30px #d45c7870;
+}
+
+button:active {
+    transform: scale(.96);
+}
+
+.message {
+    margin-top: 28px;
+    min-height: 65px;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: .8s ease;
+}
+
+.message.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.message h2 {
+    font-weight: 400;
+    font-size: 23px;
+    color: #f4b5c2;
+    margin-bottom: 9px;
+}
+
+.message p {
+    color: #d4b8bf;
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+.footer {
+    margin-top: 35px;
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: #896773;
+}
+
+.particle {
+    position: fixed;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: #e8a0b0;
+    pointer-events: none;
+    animation: float 7s linear infinite;
+    opacity: 0;
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(100vh) scale(.5);
+        opacity: 0;
+    }
+    20% { opacity: .6; }
+    80% { opacity: .3; }
+    100% {
+        transform: translateY(-10vh) scale(1.2);
+        opacity: 0;
+    }
+}
+
+@media(max-height: 700px) {
+    .heart-area {
+        height: 200px;
+        margin: 5px 0;
+    }
+    .heart {
+        width: 185px;
+    }
+    .subtitle {
+        margin-bottom: 20px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="subtitle">Algo que quiero decirte</div>
+
+    <h1>Lo siento.</h1>
+
+    <p class="description">
+        No siempre hago las cosas bien...
+    </p>
+
+    <div class="heart-area">
+
+        <svg class="heart" id="heart"
+             viewBox="0 0 240 220"
+             xmlns="http://www.w3.org/2000/svg">
+
+            <defs>
+                <linearGradient id="pink" x1="0" y1="0"
+                    x2="1" y2="1">
+                    <stop offset="0%" stop-color="#ffb4c4"/>
+                    <stop offset="50%" stop-color="#e87591"/>
+                    <stop offset="100%" stop-color="#a94365"/>
+                </linearGradient>
+
+                <filter id="glow">
+                    <feGaussianBlur stdDeviation="5"/>
+                </filter>
+
+                <clipPath id="leftClip">
+                    <rect x="0" y="0" width="120" height="220"/>
+                </clipPath>
+
+                <clipPath id="rightClip">
+                    <rect x="120" y="0" width="120" height="220"/>
+                </clipPath>
+            </defs>
+
+            <!-- Brillo central -->
+            <path class="heart-glow"
+                d="M120 195 C95 174 15 115 25 61
+                   C33 16 91 13 120 58
+                   C149 13 207 16 215 61
+                   C225 115 145 174 120 195Z"
+                fill="#ff8da9" filter="url(#glow)"/>
+
+            <!-- Mitad izquierda -->
+            <g class="left-piece" clip-path="url(#leftClip)">
+                <path
+                    d="M120 195
+                    C95 174 15 115 25 61
+                    C33 16 91 13 120 58
+                    C149 13 207 16 215 61
+                    C225 115 145 174 120 195Z"
+                    fill="url(#pink)"
+                    stroke="#ffc2ce"
+                    stroke-width="1.5"/>
+            </g>
+
+            <!-- Mitad derecha -->
+            <g class="right-piece" clip-path="url(#rightClip)">
+                <path
+                    d="M120 195
+                    C95 174 15 115 25 61
+                    C33 16 91 13 120 58
+                    C149 13 207 16 215 61
+                    C225 115 145 174 120 195Z"
+                    fill="url(#pink)"
+                    stroke="#ffc2ce"
+                    stroke-width="1.5"/>
+            </g>
+
+            <!-- Separación -->
+            <path class="crack"
+                d="M120 58 L110 85 L130 105
+                   L112 130 L126 151 L120 195"
+                fill="none"
+                stroke="#512638"
+                stroke-width="3"
+                stroke-linecap="round"
+                stroke-linejoin="round"/>
+
+            <!-- Brillo -->
+            <path d="M58 58 Q70 32 91 42"
+                fill="none"
+                stroke="#ffe1e8"
+                stroke-width="3"
+                stroke-linecap="round"
+                opacity=".6"/>
+
+        </svg>
+
+    </div>
+
+    <button id="repair">
+        Quiero hacerlo mejor
+    </button>
+
+    <div class="message" id="message">
+        <h2>Perdóname. ❤️</h2>
+        <p>
+            No quiero que mis errores pesen más
+            que todo lo bonito que compartimos.<br>
+            Quiero demostrarte que puedo hacerlo mejor.
+        </p>
+    </div>
+
+    <div class="footer">
+        CON CARIÑO, PARA TI
+    </div>
+
+</div>
+
+<script>
+const heart = document.getElementById("heart");
+const button = document.getElementById("repair");
+const message = document.getElementById("message");
+
+let repaired = false;
+
+button.addEventListener("click", () => {
+
+    if (!repaired) {
+        heart.classList.add("fixed");
+
+        message.classList.add("show");
+
+        button.textContent = "Gracias por escucharme ❤️";
+
+        repaired = true;
+    } else {
+        heart.classList.remove("fixed");
+        message.classList.remove("show");
+
+        button.textContent = "Quiero hacerlo mejor";
+
+        repaired = false;
+    }
+
+});
+
+// Partículas ambientales
+for (let i = 0; i < 22; i++) {
+    const particle = document.createElement("div");
+    particle.className = "particle";
+
+    particle.style.left = Math.random() * 100 + "vw";
+    particle.style.animationDelay = Math.random() * 8 + "s";
+    particle.style.animationDuration =
+        (5 + Math.random() * 7) + "s";
+
+    document.body.appendChild(particle);
+}
+</script>
+
+</body>
+</html>
